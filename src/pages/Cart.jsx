@@ -21,6 +21,7 @@ export default function Cart() {
 
   return (
     <>
+    <h1 className="text-4xl ">Your cart</h1>
 {    isCartEmpty && 
     <div className="flex flex-col items-center">
     <span className="text-6xl">
@@ -33,13 +34,13 @@ export default function Cart() {
     
       
     {
-     !isCartEmpty && <div className="w-1/2  m-auto">
+     !isCartEmpty && <div className="flex flex-col gap-2  lg:w-1/2  m-auto">
         {cart.map((item) => (
-          <div className="flex border justify-between p-2 gap-2">
+          <div className="grid lg:grid-cols-4 justify-center grid-cols-2 items-center border p-2 gap-2">
             <img
               src={item?.product?.imageURL}
               alt="cart product"
-              className="w-12  "
+              className="w-16  "
             ></img>
             <div className="flex flex-col items-start">
               <span>
@@ -68,12 +69,13 @@ export default function Cart() {
               onClick={() => dispatch(deleteFromCart(item.product.id))}
               variant={"outlined"}
               size="small"
+              
             >
               Delete
             </Button>
           </div>
         ))}
-        <h3> Total Price : {totalAmount} </h3>
+        <h3 className="font-bold text-2xl"> Total Price : {totalAmount} </h3>
         <Button
           onClick={() => {
             toast.success('Thanks for the purchase.');

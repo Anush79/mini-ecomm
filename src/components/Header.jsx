@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 export default function Header() {
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
   return (
     <header className="flex justify-between items-center p-3 shadow min-h-[3rem]">
       <span className="font-bold italic border-l">TeeRex Store</span>
