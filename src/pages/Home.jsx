@@ -5,10 +5,10 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <>
-      <div className="grid lg:grid-cols-2 items-center justify-center text-left ">
+      <div className="grid md:grid-cols-2 items-center justify-center text-left ">
         <div className="flex flex-col gap-5 items-start pl-3">
           <span className="italic text-slate-500">Magical colors</span>
-          <p className="text-6xl font-bold">
+          <p className="lg:text-6xl  md: text-3xl font-bold">
             Dream Collection
           </p>
           <p>
