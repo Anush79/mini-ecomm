@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Filters from "../components/Filters";
 import ProductsCard from "../components/ProductsCard";
 import Search from "../components/SearchComponent";

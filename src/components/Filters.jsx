@@ -33,7 +33,6 @@ export default function Filters() {
   };
   useEffect(() => {
     dispatch(setPriceFilter({ min: price[0], max: price[1] }));
-    console.log({ debounceValue });
   }, [debounceValue[0], debounceValue[1]]);
 
   function getUniqueItems(prop) {
