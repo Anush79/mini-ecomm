@@ -5,7 +5,7 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <>
-      <div className="grid grid-cols-2 items-center justify-center text-left ">
+      <div className="grid lg:grid-cols-2 items-center justify-center text-left ">
         <div className="flex flex-col gap-5 items-start pl-3">
           <span className="italic text-slate-500">Magical colors</span>
           <p className="text-6xl font-bold">
@@ -19,7 +19,7 @@ export default function Home() {
           </Button>
         </div>
         <div className="p-1">
-          <img
+          <img className="sm: hidden md:block"
             src="https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/blue-polo-women.png"
             alt="collection of t-shirts"
           />
