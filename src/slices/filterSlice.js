@@ -2,31 +2,39 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const reducerFunction = (prop) => {
-  return (state, {payload}) => {
-    if(payload)
-    state[prop] = [state[prop],...payload]
+
+  return (state, { payload }) => {
+    if (payload.checked)
+      state[prop] = [...state[prop], payload.name]
+    else state[prop] = state[prop].filter(item => item !== payload.name)
   }
 }
 
 export const filterSlice = createSlice({
   name: 'filters',
   initialState: {
-    gender: "",
-    color: "",
+    search:"",
+    gender: [],
+    color: [],
     priceRange: {
       min: "",
       max: ""
     },
-    type: ""
+    type: []
   },
   reducers: {
-    setGenderFilter:reducerFunction('gender'),
-    setColourFilter:reducerFunction('color'),
-    setPriceFilter:reducerFunction('priceRange'),
-    setTypeFilter: reducerFunction('type')
+    setGenderFilter: reducerFunction('gender'),
+    setColourFilter: reducerFunction('color'),
+    setTypeFilter: reducerFunction('type'),
+    setPriceFilter:(state, action)=>{
+        state.priceRange = action.payload
+    },
+    setSearchFilter:(state, action)=>{
+      state.search = action.payload.trim().toLowerCase();
+    }
   }
 })
 
-export const {setColourFilter, setGenderFilter, setPriceFilter, setTypeFilter} = filterSlice.actions;
+export const { setColourFilter,setSearchFilter, setGenderFilter, setPriceFilter, setTypeFilter } = filterSlice.actions;
 
 export default filterSlice.reducer;

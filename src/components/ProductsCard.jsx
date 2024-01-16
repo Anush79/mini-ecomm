@@ -11,6 +11,7 @@ const onClickHandler = ()=>{
 }
   return <div className="flex flex-col justify-between max-w-[250px] p-3 rounded-lg  shadow-lg gap-3 hover:outline hover:cursor-pointer">
     <img src={product?.imageURL} alt="" srcset="" className="w-full"/>
+    <div className="font-bold text-left">{product?.name}</div>
     <div className="flex gap-2 justify-between items-center">
       <span>₹ {product?.price}</span>
       <Button  onClick={onClickHandler} variant='outlined' >{isItemPresentInCart? ` Remove `:`Add to Cart`}</Button>

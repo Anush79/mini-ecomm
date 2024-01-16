@@ -1,24 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import { useState } from "react";
-import {setColourFilter, setGenderFilter, setPriceFilter, setTypeFilter} from '../slices/filterSlice'
+import { useState, useEffect } from "react";
+import useDebounce from "../customHooks/useDebounce";
+import {
+  setColourFilter,
+  setGenderFilter,
+  setPriceFilter,
+  setTypeFilter,
+} from "../slices/filterSlice";
 
 export default function Filters() {
   const products = useSelector((state) => state.products);
-  const filters = useSelector(state=> state.filters)
-  console.log({filters})
-  const [value, setValue] = useState([0, 500]);
-/**
- *   gender: "",
-    color: "",
-    priceRange: {
-      min: "",
-      max: ""
-    },
-    type: ""
- */
-const dispatch = useDispatch()
+
+  const [price, setPriceRange] = useState([0, 500]);
+  const debounceValue = useDebounce(price, 500);
+
+  const dispatch = useDispatch();
   const minMax = products?.reduce(
     (acc, curr) => {
       if (curr.price < acc.min) {
@@ -29,10 +27,15 @@ const dispatch = useDispatch()
     },
     { min: 0, max: 0 }
   );
-  console.log(minMax);
+
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setPriceRange(newValue);
   };
+  useEffect(() => {
+    dispatch(setPriceFilter({ min: price[0], max: price[1] }));
+    console.log({ debounceValue });
+  }, [debounceValue[0], debounceValue[1]]);
+
   function getUniqueItems(prop) {
     return products?.reduce((acc, curr) => {
       if (!acc.includes(curr[prop])) return [...acc, curr[prop]];
@@ -43,9 +46,9 @@ const dispatch = useDispatch()
   const allColours = getUniqueItems("color");
   const allGender = getUniqueItems("gender");
   const allTypes = getUniqueItems("type");
-  console.log(allColours);
+
   return (
-    <div className="pl-3 flex flex-col gap-1 ">
+    <div className="pl-3 flex flex-col gap-1">
       <p className="flex flex-col items-start ">
         <h3 className="font-bold text-lg">Price</h3>
         <Box sx={{ width: 150 }}>
@@ -53,19 +56,27 @@ const dispatch = useDispatch()
             max={minMax?.max}
             min={minMax?.min}
             getAriaLabel={() => "Temperature range"}
-            value={value}
+            value={price}
             onChange={handleChange}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}
           />
-          <span className="mx-3 my-1 flex gap-2 "> Rs.{value[0]}-{value[1]}</span>
+          <span className="mx-3 my-1 flex gap-2 ">
+            {" "}
+            Rs.{price[0]}-{price[1]}
+          </span>
         </Box>
       </p>
       <p className="flex flex-col items-start ">
         <h3 className="font-bold text-lg">Colors</h3>
         {allColours?.map((item) => (
           <label key={item} className="mx-3 my-1 flex gap-2 ">
-            <input type="checkbox" name={item} id="" onChange={(e)=>dispatch(setColourFilter(e.target.name))} />
+            <input
+              type="checkbox"
+              name={item}
+              id=""
+              onChange={(e) => dispatch(setColourFilter(e.target))}
+            />
             {item}
           </label>
         ))}
@@ -75,7 +86,12 @@ const dispatch = useDispatch()
         <h3 className="font-bold text-lg">Genders</h3>
         {allGender?.map((item) => (
           <label className="mx-3 my-1 flex gap-2 " key={item}>
-            <input type="checkbox" name="colors" id="" />
+            <input
+              type="checkbox"
+              name={item}
+              id=""
+              onChange={(e) => dispatch(setGenderFilter(e.target))}
+            />
             {item}
           </label>
         ))}
@@ -84,12 +100,16 @@ const dispatch = useDispatch()
         <h3 className="font-bold text-lg">Type</h3>
         {allTypes?.map((item) => (
           <label className="mx-3 my-1 flex gap-2 " key={item}>
-            <input type="checkbox" name="colors" id="" />
+            <input
+              type="checkbox"
+              name={item}
+              id=""
+              onChange={(e) => dispatch(setTypeFilter(e.target))}
+            />
             {item}
           </label>
         ))}
       </p>
-
     </div>
   );
 }
