@@ -11,19 +11,22 @@ export default function Products() {
 
   return (
     <>
-      <div className="flex gap-4 ">
+      <div className="flex gap-4 min-w-[100vw] ">
         <Filters />
-        <div>
+        <div className="flex-grow">
           <div className="flex justify-between px-2 items-center text-sm text-left">
             {filteredData?.length ?? "No"} products found
             <Search />
           </div>
-          <div className="flex flex-wrap gap-3 m-auto justify-center">
+         { filteredData.length > 0 && <div className="flex flex-wrap gap-3 m-auto justify-center">
             {filteredData.length &&
               filteredData?.map((item) => (
                 <ProductsCard key={item.id} product={item} />
               ))}
-          </div>
+          </div>}
+          {
+            filteredData.length === 0 && <p>Sorry , No Product found, try another filter</p>
+          }
         </div>
       </div>
     </>
